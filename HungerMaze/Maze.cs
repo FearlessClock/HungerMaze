@@ -131,6 +131,16 @@ namespace HungerMaze
             return c;
         }
 
+        public Cell GetRandomUnoccupiedCell()
+        {
+            Cell c = GetFromVecShallowCopy(new Vector(rand.Next(0, Width), rand.Next(0, Height)));
+            while (c.IsBlocked || c.CurrentFighter != null)
+            {
+                c = GetFromVecShallowCopy(new Vector(rand.Next(0, Width), rand.Next(0, Height)));
+            }
+            return c;
+        }
+
         /// <summary>
         /// Marks all the cells as not visited, usefull after Astar call
         /// </summary>
@@ -272,6 +282,15 @@ namespace HungerMaze
             return null;
         }
 
+        public Cell GetFromVecShallowCopy(Vector pos)
+        {
+            if (pos.x < Width && pos.y < Height)
+            {
+                return layout[pos.x, pos.y];
+            }
+            return null;
+        }
+
         /// <summary>
         /// Make a shallow copy of the cell then set as cell
         /// </summary>
@@ -281,27 +300,26 @@ namespace HungerMaze
             layout[c.Position.x, c.Position.y].Clone(c);
         }
 
-        public List<Cell> GetSurroundingPaths(Cell c)
+        public Cell[] GetSurroundingEmptyCells(Vector pos)
         {
             List<Cell> dirs = new List<Cell>();
 
             Vector[] NESW = MazeHelper.GetNESWDirectionArray();
-
-            Vector pos = c.Position;
+            
             for (int i = 0; i < NESW.Length; i++)
             {
                 Vector curr = pos + NESW[i];
                 if (curr.IsBetween(0, 0, Width, Height))
                 {
-                    Cell step = GetFromVec(curr);
-                    if(!step.Visited && !step.IsBlocked)
+                    Cell step = GetFromVecShallowCopy(curr);
+                    if(!step.IsBlocked)
                     {
                         dirs.Add(step);
                     }
                 }
             }
 
-            return dirs;
+            return dirs.ToArray<Cell>();
         }
 
         public List<Cell> GetSurroundingPaths(Cell c, List<Cell> visited)

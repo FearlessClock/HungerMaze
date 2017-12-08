@@ -42,7 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttackStance.cs" />
     <Compile Include="Cell.cs" />
+    <Compile Include="DefenceStance.cs" />
+    <Compile Include="Fighter.cs" />
+    <Compile Include="HiveMind.cs" />
+    <Compile Include="IStance.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="MazeGenerator.cs" />
     <Compile Include="MazeHelper.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HungerMaze
@@ -10,11 +11,17 @@ namespace HungerMaze
     {
         static void Main(string[] args)
         {
-            Maze maze = MazeGenerator.GenerateNonPerfectPrimMaze(new Vector(20, 20), 0.9f);
+            Maze maze = MazeGenerator.GenerateNonPerfectPrimMaze(new Vector(10, 10), 0.5f);
+            HiveMind hiveMind = new HiveMind(maze, 3);
             MazeVisualiser.ShowMaze(maze);
+            MazeVisualiser.ShowFighters(hiveMind);
 
-
-            Console.ReadKey();
+            while (true)
+            {
+                Thread.Sleep(1000);
+                hiveMind.Update(maze);
+                //ShowFighters(hiveMind);
+            }
         }
     }
 }

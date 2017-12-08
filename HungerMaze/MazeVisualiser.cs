@@ -26,25 +26,34 @@ namespace HungerMaze
                     if(maze.layout[j, i].IsBlocked)
                     {
                         Console.ForegroundColor = maze.layout[j, i].color;
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.Write("#");
                     }
                     else
                     {
-                        Console.ForegroundColor = maze.layout[j, i].color;
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.Write(" ");
+                        if(maze.layout[j, i].End)
+                        {
+                            Console.ForegroundColor = maze.layout[j, i].color;
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("E");
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = maze.layout[j, i].color;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.Write(" ");
+                        }
                     }
                 }
                 int left = Console.CursorLeft;
                 int top = Console.CursorTop;
 
-                Console.SetCursorPosition(maze.Start.x, maze.Start.y);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("S");
-                Console.SetCursorPosition(maze.End.x, maze.End.y);
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write("E");
+                //Console.SetCursorPosition(maze.Start.x, maze.Start.y);
+                //Console.ForegroundColor = ConsoleColor.Green;
+                //Console.Write("S");
+                //Console.SetCursorPosition(maze.End.x, maze.End.y);
+                //Console.ForegroundColor = ConsoleColor.Magenta;
+                //Console.Write("E");
 
                 Console.SetCursorPosition(left, top);
                 Console.WriteLine("");
@@ -52,53 +61,34 @@ namespace HungerMaze
             }
         }
 
-        /// <summary>
-        /// Show a path sent as a Stack odered by last to first
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="col"></param>
-        public static void ShowPath(Stack<Cell> path, ConsoleColor col)
+        internal static void ClearFighters(HiveMind hiveMind)
         {
             int top = Console.CursorTop;
             int left = Console.CursorLeft;
 
-            if (path != null)
+            foreach (Fighter fighter in hiveMind.Fighters)
             {
-                Random rand = new Random();
-                Cell cell = path.Pop();
-                Console.SetCursorPosition(cell.Position.x, cell.Position.y);
-                Console.BackgroundColor = col;
-                Console.ForegroundColor = ConsoleColor.White;
-                //Console.Write((char)rand.Next(32, 126));
-                Console.Write("E");
-                //Console.BackgroundColor = col;
-                while (path.Count > 1)
-                {
-                    cell = path.Pop();
-                    Console.SetCursorPosition(cell.Position.x, cell.Position.y);
-                    //Console.Write((char)rand.Next(32, 126));
-                    Console.Write("*");
-                    //Thread.Sleep(60);
-                }
-                if (path.Count > 0)
-                {
-                    cell = path.Pop();
-                    Console.BackgroundColor = ConsoleColor.Yellow;
-                    Console.SetCursorPosition(cell.Position.x, cell.Position.y);
-                    //Console.Write((char)rand.Next(32, 126));
-                    Console.Write("S");
-                }
-                //Console.BackgroundColor = col;
+                Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
+                Console.ForegroundColor = fighter.color;// ConsoleColor.Red;
+                Console.Write(" ");
             }
-            else
-            {
-                Console.WriteLine("Path null");
-            }
-            Console.BackgroundColor = ConsoleColor.Black;
-            //Thread.Sleep(60);
             Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(left, top);
+        }
 
-            Console.SetCursorPosition(left, top); 
+        public static void ShowFighters(HiveMind hiveMind)
+        {
+            int top = Console.CursorTop;
+            int left = Console.CursorLeft;
+
+            foreach (Fighter fighter in hiveMind.Fighters)
+            {
+                Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
+                Console.ForegroundColor = fighter.color;// ConsoleColor.Red;
+                Console.Write("F");
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(left, top);
         }
         /// <summary>
         /// Show the start position of the path

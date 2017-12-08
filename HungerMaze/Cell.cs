@@ -9,11 +9,33 @@ namespace HungerMaze
     //Represent the cells of the maze in the grid
     public class Cell
     {
+        Item item;
+        public Item Item
+        {
+            get { return item; }
+            set { item = value; }
+        }
+
+        Fighter fighter;
+
+        public Fighter CurrentFighter
+        {
+            get { return fighter; }
+            set { fighter = value; }
+        }
+
         bool wall;
         public bool IsBlocked
         {
             get { return wall; }
             set { wall = value; }
+        }
+
+        bool end;
+        public bool End
+        {
+            get { return end; }
+            set { end = value; }
         }
         
         public enum Direction { N, S, E, W}
@@ -90,6 +112,11 @@ namespace HungerMaze
             set { visited = value; }
         }
 
+        public bool HasFighter()
+        {
+            return CurrentFighter != null ? true : false;
+        }
+
         public ConsoleColor color = ConsoleColor.White; 
 
         //The movement cost to move from the starting point to a given square on the grid, following the path generated to get there from the start node.
@@ -109,6 +136,7 @@ namespace HungerMaze
             h = 0;
             f = g + h;
             pos = new Vector(0, 0);
+            fighter = null;
         }
 
         public Cell(Vector p): this()
@@ -163,7 +191,16 @@ namespace HungerMaze
 
         public override string ToString()
         {
-            return "{" + pos.x + " : " + pos.y + "}";
+            string res = "";
+            if(CurrentFighter != null)
+            {
+                res = "{" + pos.x + " : " + pos.y + " FighterColor " + fighter.color + "}";
+            }
+            else
+            {
+                res = "{" + pos.x + " : " + pos.y + "}";
+            }
+            return res;
         }
 
         public override int GetHashCode()
