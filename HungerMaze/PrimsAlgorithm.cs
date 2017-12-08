@@ -43,6 +43,7 @@ namespace HungerMaze
             maze.End = new Vector(maze.Width-1, maze.Height-2);     //Bottom right corner one up
         
             maze.layout[maze.End.x, maze.End.y].IsBlocked = false;
+            maze.layout[maze.End.x-1, maze.End.y].IsBlocked = false;    //Make sure that the exit is clear
             maze.layout[maze.End.x, maze.End.y].End = true;
             maze.SetColorAt(maze.End, ConsoleColor.Green);
             return maze;

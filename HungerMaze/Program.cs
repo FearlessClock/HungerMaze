@@ -15,13 +15,14 @@ namespace HungerMaze
             HiveMind hiveMind = new HiveMind(maze, 3);
             MazeVisualiser.ShowMaze(maze);
             MazeVisualiser.ShowFighters(hiveMind);
-
-            while (true)
+            bool gameover = false;
+            while (!gameover)
             {
                 Thread.Sleep(1000);
-                hiveMind.Update(maze);
-                //ShowFighters(hiveMind);
+                hiveMind.Update(maze, ref gameover);
             }
+            Console.WriteLine("And the winner isssss!... I don't know... Yet!");
+            Console.ReadKey();
         }
     }
 }
