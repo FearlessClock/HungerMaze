@@ -42,8 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cell.cs" />
+    <Compile Include="Maze.cs" />
+    <Compile Include="MazeGenerator.cs" />
+    <Compile Include="MazeHelper.cs" />
+    <Compile Include="MazeVisualiser.cs" />
+    <Compile Include="PrimsAlgorithm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
