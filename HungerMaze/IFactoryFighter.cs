@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace HungerMaze
 {
-    interface IFighterFactory
+    class IFactoryFighter
     {
-        void CreateFighter(IStance stance, Vector mazeSize, Cell currentCell, float damage, float life, int randColor);
     }
 }

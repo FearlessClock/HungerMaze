@@ -66,7 +66,7 @@ namespace HungerMaze
             int top = Console.CursorTop;
             int left = Console.CursorLeft;
 
-            foreach (Fighter fighter in hiveMind.Fighters)
+            foreach (NormalFighter fighter in hiveMind.Fighters)
             {
                 Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
                 Console.ForegroundColor = fighter.color;// ConsoleColor.Red;
@@ -81,7 +81,7 @@ namespace HungerMaze
             int top = Console.CursorTop;
             int left = Console.CursorLeft;
 
-            foreach (Fighter fighter in hiveMind.Fighters)
+            foreach (NormalFighter fighter in hiveMind.Fighters)
             {
                 Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
                 Console.ForegroundColor = fighter.color;// ConsoleColor.Red;

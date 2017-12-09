@@ -8,6 +8,6 @@ namespace HungerMaze
 {
     public interface IStance
     {
-        void React(Fighter fighter, Item[] items, Cell[] cells, Fighter[] fighters, bool[,] visitedPositions, Stack<Cell> path);
+        void React(NormalFighter fighter, Item[] items, Cell[] cells, NormalFighter[] fighters, bool[,] visitedPositions, Stack<Cell> path);
     }
 }

@@ -16,9 +16,9 @@ namespace HungerMaze
             set { item = value; }
         }
 
-        Fighter fighter;
+        NormalFighter fighter;
 
-        public Fighter CurrentFighter
+        public NormalFighter CurrentFighter
         {
             get { return fighter; }
             set { fighter = value; }

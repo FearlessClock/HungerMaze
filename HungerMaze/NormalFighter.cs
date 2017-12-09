@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HungerMaze
 {
-    public class Fighter : IFighter
+    public class NormalFighter : IFighter
     {
         float damage;
         float life;
@@ -19,13 +19,25 @@ namespace HungerMaze
         List<Item> inventory = new List<Item>();
 
         Cell currentCell;
+
+        public bool CanFight()
+        {
+            if(inventory.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         internal ConsoleColor color;
 
         public Vector GetPosition { get { return currentCell.Position; } }
 
         public Cell GetCell { get { return currentCell; } }
 
-        public Fighter(IStance stance, Vector mazeSize, Cell currentCell, float damage, float life, int randColor)
+        public float Life { get { return life; } }
+
+        public NormalFighter(IStance stance, Vector mazeSize, Cell currentCell, float damage, float life, int randColor)
         {
             color = (ConsoleColor)randColor;
             this._stance = stance;
@@ -40,7 +52,7 @@ namespace HungerMaze
             _stance = newStance;
         }
 
-        public void React(Item[] items, Cell[] cells, Fighter[] fighters)
+        public void React(Item[] items, Cell[] cells, NormalFighter[] fighters)
         {
             _stance.React(this, items, cells, fighters, visitedCells, path);
         }
@@ -50,7 +62,7 @@ namespace HungerMaze
             life -= amount;
         }
 
-        public void Attack(Fighter enemy)
+        public void Attack(NormalFighter enemy)
         {
             if (inventory.Count > 0)
             {
@@ -70,6 +82,18 @@ namespace HungerMaze
             visitedCells[GetPosition.x, GetPosition.y] = true;
             toCell.CurrentFighter = this;
             currentCell = toCell;
+        }
+
+        public bool IsDead()
+        {
+            if(life > 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public bool CheckForEnd()

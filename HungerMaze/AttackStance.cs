@@ -10,68 +10,70 @@ namespace HungerMaze
     class AttackStance : IStance
     {
         Random rand = new Random();
-        public void React(Fighter fighter, Item[] items, Cell[] cells, Fighter[] fighters, bool[,] visitedPositions, Stack<Cell> path)
+        public void React(NormalFighter fighter, Item[] items, Cell[] cells, NormalFighter[] fighters, bool[,] visitedPositions, Stack<Cell> path)
         {
-            //TEST
-            List<Cell> unVisitedNeighborCells = new List<Cell>();
-            for (int i = 0; i < cells.Length; i++)
+            if (fighter.CanFight() && fighters.Length > 0)
             {
-                if (cells[i].HasFighter())
-                {
-                    Console.WriteLine("");
-                }
-                bool var1 = !visitedPositions[cells[i].Position.x, cells[i].Position.y];
-                bool var2 = !cells[i].HasFighter();
-                if (var1 && var2)
-                {
-                    unVisitedNeighborCells.Add(cells[i]);
-                }
-            }
-            if (unVisitedNeighborCells.Count > 0)
-            {
-                int selectedIndex = rand.Next(0, unVisitedNeighborCells.Count);
-                Cell c = unVisitedNeighborCells[selectedIndex];
-                fighter.GetCell.CurrentFighter = null;
-                c.CurrentFighter = fighter;
-                path.Push(fighter.GetCell);
-                fighter.Move(c);
+                fighter.Attack(fighters[0]);
             }
             else
             {
-                //Double pop because the first pop is the current position
-                if (path.Count > 0)
+                List<Cell> unVisitedNeighborCells = new List<Cell>();
+                for (int i = 0; i < cells.Length; i++)
                 {
-                    Cell step = path.Pop();
-                    if (!step.HasFighter())
+                    bool var1 = !visitedPositions[cells[i].Position.x, cells[i].Position.y];
+                    bool var2 = !cells[i].HasFighter();
+                    if (var1 && var2)
                     {
-                        fighter.GetCell.CurrentFighter = null;
-                        fighter.Move(step);
+                        unVisitedNeighborCells.Add(cells[i]);
                     }
-                    else
-                    {
-                        /* Note:
-                         * 1,2,3 The 3 fighters
-                         * V a visited cell
-                         *      #####
-                                #V#V#
-                                #123#
-                                ##V##
-                                #####
-                         * The stack pop places the fighters on other fighters and the other cells are already visited
-                         * The fighters can't move! So they are all stuck!
-                         * Idea: Make the surrounding cells not visited
-                         * Buuuuut this is a verrry edge case and so we are leaving it for now
-                         */
-                        path.Push(step);
-                    }
+                }
+                if (unVisitedNeighborCells.Count > 0)
+                {
+                    int selectedIndex = rand.Next(0, unVisitedNeighborCells.Count);
+                    Cell c = unVisitedNeighborCells[selectedIndex];
+                    fighter.GetCell.CurrentFighter = null;
+                    c.CurrentFighter = fighter;
+                    path.Push(fighter.GetCell);
+                    fighter.Move(c);
                 }
                 else
                 {
-                    for (int i = 0; i < visitedPositions.GetLength(0); i++)
+                    //Double pop because the first pop is the current position
+                    if (path.Count > 0)
                     {
-                        for (int j = 0; j < visitedPositions.GetLength(1); j++)
+                        Cell step = path.Pop();
+                        if (!step.HasFighter())
                         {
-                            visitedPositions[i, j] = false;
+                            fighter.GetCell.CurrentFighter = null;
+                            fighter.Move(step);
+                        }
+                        else
+                        {
+                            /* Note:
+                             * 1,2,3 The 3 fighters
+                             * V a visited cell
+                             *      #####
+                                    #V#V#
+                                    #123#
+                                    ##V##
+                                    #####
+                             * The stack pop places the fighters on other fighters and the other cells are already visited
+                             * The fighters can't move! So they are all stuck!
+                             * Idea: Make the surrounding cells not visited
+                             * Buuuuut this is a verrry edge case and so we are leaving it for now
+                             */
+                            path.Push(step);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < visitedPositions.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < visitedPositions.GetLength(1); j++)
+                            {
+                                visitedPositions[i, j] = false;
+                            }
                         }
                     }
                 }
