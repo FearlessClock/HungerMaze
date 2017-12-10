@@ -12,6 +12,11 @@ namespace HungerMaze
         static void Main(string[] args)
         {
             Maze maze = MazeGenerator.GenerateNonPerfectPrimMaze(new Vector(10, 10), 0.5f);
+            for (int i = 0; i < 3; i++)
+            {
+                Cell randomCell = maze.GetRandomUnoccupiedCell();
+                randomCell.Item = new Item("An item", randomCell.Position, 3);
+            }
             HiveMind hiveMind = new HiveMind(maze, 3);
             MazeVisualiser.ShowMaze(maze);
             MazeVisualiser.ShowFighters(hiveMind);

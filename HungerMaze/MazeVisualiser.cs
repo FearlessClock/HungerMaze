@@ -31,11 +31,11 @@ namespace HungerMaze
                     }
                     else
                     {
-                        if(maze.layout[j, i].End)
+                        if(maze.layout[j, i].Item != null)
                         {
                             Console.ForegroundColor = maze.layout[j, i].color;
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write("E");
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            Console.Write("I");
                         }
                         else
                         {
@@ -51,9 +51,9 @@ namespace HungerMaze
                 //Console.SetCursorPosition(maze.Start.x, maze.Start.y);
                 //Console.ForegroundColor = ConsoleColor.Green;
                 //Console.Write("S");
-                //Console.SetCursorPosition(maze.End.x, maze.End.y);
-                //Console.ForegroundColor = ConsoleColor.Magenta;
-                //Console.Write("E");
+                Console.SetCursorPosition(maze.End.x, maze.End.y);
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.Write("E");
 
                 Console.SetCursorPosition(left, top);
                 Console.WriteLine("");

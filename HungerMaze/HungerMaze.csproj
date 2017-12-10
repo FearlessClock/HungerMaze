@@ -45,6 +45,7 @@
     <Compile Include="AttackStance.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="DefenceStance.cs" />
+    <Compile Include="IItem.cs" />
     <Compile Include="NormalFighter.cs" />
     <Compile Include="HiveMind.cs" />
     <Compile Include="IFactoryFighter.cs" />

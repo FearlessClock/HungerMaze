@@ -16,6 +16,26 @@ namespace HungerMaze
             {
                 fighter.Attack(fighters[0]);
             }
+            else if(items.Length > 0)
+            {
+                Cell c = null;
+                for (int i = 0; i < cells.Length; i++)
+                {
+                    if(cells[i].Position.Equals(items[0].Position))
+                    {
+                        c = cells[i];
+                    }
+                }
+                if (c != null)
+                {
+                    fighter.GetCell.CurrentFighter = null;
+                    c.CurrentFighter = fighter;
+                    fighter.AddItem(items[0]);
+                    path.Push(fighter.GetCell);
+                    fighter.Move(c);
+                    c.Item = null;
+                }
+            }
             else
             {
                 List<Cell> unVisitedNeighborCells = new List<Cell>();

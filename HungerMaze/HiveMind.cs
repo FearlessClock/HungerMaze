@@ -36,17 +36,18 @@ namespace HungerMaze
         public void Update(Maze maze, ref bool gameover)
         {
             MazeVisualiser.ClearFighters(this);
-            foreach (NormalFighter fighter in fighters)
+            NormalFighter[] copyFighters = fighters.ToArray();
+            foreach (NormalFighter fighter in copyFighters)
             {
                 Cell[] cells = maze.GetSurroundingEmptyCells(fighter.GetPosition);
-                List<NormalFighter> fighters = new List<NormalFighter>();
+                List<NormalFighter> surroundingFighters = new List<NormalFighter>();
                 List<Item> items = new List<Item>();
 
                 foreach (Cell c in cells)
                 {
                     if (c.CurrentFighter != null)
                     {
-                        fighters.Add(c.CurrentFighter);
+                        surroundingFighters.Add(c.CurrentFighter);
                     }
                     if (c.Item != null)
                     {
@@ -54,14 +55,19 @@ namespace HungerMaze
                     }
                 }
 
-                fighter.React(items.ToArray<Item>(), cells, fighters.ToArray<NormalFighter>());
-                gameover = fighter.CheckForEnd();
-                if(fighter.IsDead())
+                fighter.React(items.ToArray<Item>(), cells, surroundingFighters.ToArray<NormalFighter>());
+                if (!gameover)
                 {
+                    gameover = fighter.CheckForEnd();
+                }
+                if (fighter.IsDead())
+                {
+                    fighter.GetCell.CurrentFighter = null;
                     fighters.Remove(fighter);
                 }
-                Console.WriteLine(fighter.Life);
+                //Console.Write(fighter.Life + " ");
             }
+            //Console.WriteLine("");
             MazeVisualiser.ShowFighters(this);
         }
     }

@@ -137,6 +137,7 @@ namespace HungerMaze
             f = g + h;
             pos = new Vector(0, 0);
             fighter = null;
+            item = null;
         }
 
         public Cell(Vector p): this()
