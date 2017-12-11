@@ -19,6 +19,7 @@ namespace HungerMaze
                 Cell randomCell = maze.GetRandomUnoccupiedCell();
                 randomCell.Item.Add(itemFactory.GetItem((eItemType)rand.Next(0, 3), randomCell.Position));
             }
+
             HiveMind hiveMind = new HiveMind(maze, 3);
             MazeVisualiser.ShowMaze(maze);
             MazeVisualiser.ShowFighters(hiveMind);
