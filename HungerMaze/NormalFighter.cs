@@ -16,7 +16,7 @@ namespace HungerMaze
         bool[,] visitedCells;
         Stack<Cell> path = new Stack<Cell>();
 
-        List<Item> inventory = new List<Item>();
+        List<IItem> inventory = new List<IItem>();
 
         Cell currentCell;
 
@@ -47,7 +47,7 @@ namespace HungerMaze
             this.visitedCells = new bool[mazeSize.x, mazeSize.y];
         }
 
-        public void AddItem(Item item)
+        public void AddItem(IItem item)
         {
             inventory.Add(item);
         }
@@ -57,7 +57,7 @@ namespace HungerMaze
             _stance = newStance;
         }
 
-        public void React(Item[] items, Cell[] cells, NormalFighter[] fighters)
+        public void React(IItem[] items, Cell[] cells, NormalFighter[] fighters)
         {
             _stance.React(this, items, cells, fighters, visitedCells, path);
         }
@@ -72,7 +72,7 @@ namespace HungerMaze
             if (inventory.Count > 0)
             {
                 float sumOfDamage = damage;
-                foreach (Item d in inventory)
+                foreach (IItem d in inventory)
                 {
                     sumOfDamage += d.UseItem();
                 }

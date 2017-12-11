@@ -9,8 +9,8 @@ namespace HungerMaze
     //Represent the cells of the maze in the grid
     public class Cell
     {
-        Item item;
-        public Item Item
+        IItem item;
+        public IItem Item
         {
             get { return item; }
             set { item = value; }

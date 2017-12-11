@@ -1,13 +1,13 @@
 ﻿namespace HungerMaze
 {
-    public class Item : IItem
+    public class AttackItem : IItem
     {
         string name;
         Vector position;
         float damage;
         float useReduction = 1;
 
-        public Item(string name, Vector pos, float damage, float useReduction = 1)
+        public AttackItem(string name, Vector pos, float damage, float useReduction = 1)
         {
             this.name = name;
             this.damage = damage;

@@ -11,12 +11,20 @@ namespace HungerMaze
     {
         static void Main(string[] args)
         {
-            Maze maze = MazeGenerator.GenerateNonPerfectPrimMaze(new Vector(10, 10), 0.5f);
-            for (int i = 0; i < 3; i++)
+            Maze maze = MazeGenerator.GenerateNonPerfectPrimMaze(new Vector(20, 20), 0.5f);
+            IFactoryItem itemFactory = new IFactoryItem();
+
+            // Get a random value in the item type enum
+            Array values = Enum.GetValues(typeof(eItemType));
+            Random random = new Random();
+            eItemType randomType = (eItemType)values.GetValue(random.Next(values.Length));
+
+            for (int i = 0; i < 5; i++)
             {
                 Cell randomCell = maze.GetRandomUnoccupiedCell();
-                randomCell.Item = new Item("An item", randomCell.Position, 3);
+                randomCell.Item = itemFactory.GetItem(randomType, randomCell.Position, 2);
             }
+
             HiveMind hiveMind = new HiveMind(maze, 3);
             MazeVisualiser.ShowMaze(maze);
             MazeVisualiser.ShowFighters(hiveMind);

@@ -10,6 +10,6 @@
         bool CheckForEnd();
         void LoseHealth(float amount);
         void Move(Cell toCell);
-        void React(Item[] items, Cell[] cells, NormalFighter[] fighters);
+        void React(IItem[] items, Cell[] cells, NormalFighter[] fighters);
     }
 }

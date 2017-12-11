@@ -10,7 +10,7 @@ namespace HungerMaze
     class DefenceStance : IStance
     {
         Random rand = new Random();
-        public void React(NormalFighter fighter, Item[] items, Cell[] cells, NormalFighter[] fighters, bool[,] visitedPositions, Stack<Cell> path)
+        public void React(NormalFighter fighter, IItem[] items, Cell[] cells, NormalFighter[] fighters, bool[,] visitedPositions, Stack<Cell> path)
         {
             List<Cell> unVisitedNeighborCells = new List<Cell>();
             for (int i = 0; i < cells.Length; i++)

@@ -41,7 +41,7 @@ namespace HungerMaze
             {
                 Cell[] cells = maze.GetSurroundingEmptyCells(fighter.GetPosition);
                 List<NormalFighter> surroundingFighters = new List<NormalFighter>();
-                List<Item> items = new List<Item>();
+                List<IItem> items = new List<IItem>();
 
                 foreach (Cell c in cells)
                 {
@@ -55,7 +55,7 @@ namespace HungerMaze
                     }
                 }
 
-                fighter.React(items.ToArray<Item>(), cells, surroundingFighters.ToArray<NormalFighter>());
+                fighter.React(items.ToArray<IItem>(), cells, surroundingFighters.ToArray<NormalFighter>());
                 if (!gameover)
                 {
                     gameover = fighter.CheckForEnd();
