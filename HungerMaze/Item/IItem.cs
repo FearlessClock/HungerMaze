@@ -2,7 +2,6 @@
 {
     public interface IItem
     {
-        object Position { get; }
         float UseItem();
         Vector Position { get; } 
     }
