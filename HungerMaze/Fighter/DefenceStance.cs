@@ -15,10 +15,6 @@ namespace HungerMaze
             List<Cell> unVisitedNeighborCells = new List<Cell>();
             for (int i = 0; i < cells.Length; i++)
             {
-                if (cells[i].HasFighter())
-                {
-                    Console.WriteLine("");
-                }
                 bool var1 = !visitedPositions[cells[i].Position.x, cells[i].Position.y];
                 bool var2 = !cells[i].HasFighter();
                 if (var1 && var2)
@@ -31,13 +27,17 @@ namespace HungerMaze
                 int selectedIndex = rand.Next(0, unVisitedNeighborCells.Count);
                 Cell c = unVisitedNeighborCells[selectedIndex];
                 fighter.GetCell.CurrentFighter = null;
+                if(c.Item.Count > 0)
+                {
+                    fighter.AddItem(c.Item.ToArray<IItem>());
+                    c.Item = new List<IItem>();
+                }
                 c.CurrentFighter = fighter;
                 path.Push(fighter.GetCell);
                 fighter.Move(c);
             }
             else
             {
-                //Double pop because the first pop is the current position
                 if (path.Count > 0)
                 {
                     Cell step = path.Pop();
@@ -62,16 +62,6 @@ namespace HungerMaze
                          * Buuuuut this is a verrry edge case and so we are leaving it for now
                          */
                         path.Push(step);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < visitedPositions.GetLength(0); i++)
-                    {
-                        for (int j = 0; j < visitedPositions.GetLength(1); j++)
-                        {
-                            visitedPositions[i, j] = false;
-                        }
                     }
                 }
             }

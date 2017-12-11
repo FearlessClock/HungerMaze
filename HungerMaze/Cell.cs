@@ -9,11 +9,11 @@ namespace HungerMaze
     //Represent the cells of the maze in the grid
     public class Cell
     {
-        IItem item;
-        public IItem Item
+        List<IItem> items;
+        public List<IItem> Item
         {
-            get { return item; }
-            set { item = value; }
+            get { return items; }
+            set { items = value; }
         }
 
         IFighter fighter;
@@ -137,7 +137,7 @@ namespace HungerMaze
             f = g + h;
             pos = new Vector(0, 0);
             fighter = null;
-            item = null;
+            items = new List<IItem>();
         }
 
         public Cell(Vector p): this()
@@ -161,6 +161,10 @@ namespace HungerMaze
             this.parentPos = c.parentPos;
             this.color = c.color;
             this.visited = c.visited;
+            this.items = c.items;
+            this.fighter = c.fighter;
+            this.end = c.end;
+            this.wall = c.wall;
         }
 
         //Make a cell passable

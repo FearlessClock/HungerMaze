@@ -30,10 +30,10 @@ namespace HungerMaze
                 {
                     fighter.GetCell.CurrentFighter = null;
                     c.CurrentFighter = fighter;
-                    fighter.AddItem(items[0]);
+                    fighter.AddItem(items);
                     path.Push(fighter.GetCell);
                     fighter.Move(c);
-                    c.Item = null;
+                    c.Item = new List<IItem>();
                 }
             }
             else

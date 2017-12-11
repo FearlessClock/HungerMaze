@@ -54,9 +54,9 @@ namespace HungerMaze
             this.visitedCells = new bool[mazeSize.x, mazeSize.y];
         }
 
-        public void AddItem(IItem item)
+        public void AddItem(IItem[] item)
         {
-            inventory.Add(item);
+            inventory.AddRange(item);
             ChangeStance(new AttackStance());
         }
 
