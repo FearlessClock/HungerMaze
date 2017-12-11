@@ -31,7 +31,7 @@ namespace HungerMaze
                     }
                     else
                     {
-                        if(maze.layout[j, i].Item.Count > 0)
+                        if(maze.layout[j, i].Item != null)
                         {
                             Console.ForegroundColor = maze.layout[j, i].color;
                             Console.ForegroundColor = ConsoleColor.Magenta;

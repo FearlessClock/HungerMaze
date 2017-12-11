@@ -17,12 +17,13 @@ namespace HungerMaze
             for (int i = 0; i < 3; i++)
             {
                 Cell randomCell = maze.GetRandomUnoccupiedCell();
-                randomCell.Item.Add(itemFactory.GetItem((eItemType)rand.Next(0, 3), randomCell.Position));
+                randomCell.Item = itemFactory.GetItem((eItemType)rand.Next(0, 3), randomCell.Position);
             }
 
             HiveMind hiveMind = new HiveMind(maze, 3);
             MazeVisualiser.ShowMaze(maze);
             MazeVisualiser.ShowFighters(hiveMind);
+
             bool gameover = false;
             while (!gameover)
             {

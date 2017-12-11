@@ -9,11 +9,11 @@ namespace HungerMaze
     //Represent the cells of the maze in the grid
     public class Cell
     {
-        List<IItem> items;
-        public List<IItem> Item
+        IItem item;
+        public IItem Item
         {
-            get { return items; }
-            set { items = value; }
+            get { return item; }
+            set { item = value; }
         }
 
         IFighter fighter;
@@ -137,7 +137,7 @@ namespace HungerMaze
             f = g + h;
             pos = new Vector(0, 0);
             fighter = null;
-            items = new List<IItem>();
+            item = null;
         }
 
         public Cell(Vector p): this()
@@ -161,7 +161,7 @@ namespace HungerMaze
             this.parentPos = c.parentPos;
             this.color = c.color;
             this.visited = c.visited;
-            this.items = c.items;
+            this.item = c.item;
             this.fighter = c.fighter;
             this.end = c.end;
             this.wall = c.wall;

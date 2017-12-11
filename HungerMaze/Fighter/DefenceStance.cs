@@ -27,10 +27,10 @@ namespace HungerMaze
                 int selectedIndex = rand.Next(0, unVisitedNeighborCells.Count);
                 Cell c = unVisitedNeighborCells[selectedIndex];
                 fighter.GetCell.CurrentFighter = null;
-                if(c.Item.Count > 0)
+                if(c.Item != null)
                 {
-                    fighter.AddItem(c.Item.ToArray<IItem>());
-                    c.Item = new List<IItem>();
+                    fighter.AddItem(c.Item);
+                    c.Item = null;
                 }
                 c.CurrentFighter = fighter;
                 path.Push(fighter.GetCell);

@@ -58,9 +58,9 @@ namespace HungerMaze
                     {
                         surroundingFighters.Add(c.CurrentFighter);
                     }
-                    if (c.Item.Count > 0)
+                    if (c.Item != null)
                     {
-                        items.AddRange(c.Item);
+                        items.Add(c.Item);
                     }
                 }
 
