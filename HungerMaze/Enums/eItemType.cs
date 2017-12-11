@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace HungerMaze
 {
-    class IFactoryFighter
+    enum eItemType
     {
+        weakItem, mediumItem, strongItem
     }
 }

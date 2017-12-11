@@ -13,10 +13,12 @@ namespace HungerMaze
 
         IStance _stance;
 
+        string name;
+
         bool[,] visitedCells;
         Stack<Cell> path = new Stack<Cell>();
 
-        List<Item> inventory = new List<Item>();
+        List<IItem> inventory = new List<IItem>();
 
         Cell currentCell;
 
@@ -37,19 +39,25 @@ namespace HungerMaze
 
         public float Life { get { return life; } }
 
-        public NormalFighter(IStance stance, Vector mazeSize, Cell currentCell, float damage, float life, int randColor)
+        public string getName => name;
+
+        ConsoleColor IFighter.Color => color;
+
+        public NormalFighter(IStance stance, string name, Vector mazeSize, Cell currentCell, float damage, float life, int randColor)
         {
             color = (ConsoleColor)randColor;
             this._stance = stance;
+            this.name = name;
             this.damage = damage;
             this.life = life;
             this.currentCell = currentCell;
             this.visitedCells = new bool[mazeSize.x, mazeSize.y];
         }
 
-        public void AddItem(Item item)
+        public void AddItem(IItem item)
         {
             inventory.Add(item);
+            ChangeStance(new AttackStance());
         }
 
         public void ChangeStance(IStance newStance)
@@ -57,9 +65,9 @@ namespace HungerMaze
             _stance = newStance;
         }
 
-        public void React(Item[] items, Cell[] cells, NormalFighter[] fighters)
+        public void React(IItem[] items, Cell[] cells, IFighter[] fighters)
         {
-            _stance.React(this, items, cells, fighters, visitedCells, path);
+            _stance.React((IFighter)this, items, cells, fighters, visitedCells, path);
         }
 
         public void LoseHealth(float amount)
@@ -67,14 +75,23 @@ namespace HungerMaze
             life -= amount;
         }
 
-        public void Attack(NormalFighter enemy)
+        public void Attack(IFighter enemy)
         {
             if (inventory.Count > 0)
             {
                 float sumOfDamage = damage;
-                foreach (Item d in inventory)
+                IItem[] copyInven = inventory.ToArray<IItem>();
+                foreach (Item d in copyInven)
                 {
-                    sumOfDamage += d.UseItem();
+                    float dam = d.UseItem();
+                    if (dam == -1)
+                    {
+                        inventory.Remove(d);
+                    }
+                    else
+                    {
+                        sumOfDamage += dam;
+                    }
                 }
 
                 enemy.LoseHealth(sumOfDamage);

@@ -15,12 +15,16 @@
             this.position = pos;
         }
 
-        public object Position { get { return position; } }
+        public Vector Position => position;
 
         public float UseItem()
         {
             float damagePower = damage;
             damage -= useReduction;
+            if(damage <= 0)
+            {
+                return -1;
+            }
             return damagePower;
         }
     }

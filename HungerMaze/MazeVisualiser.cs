@@ -66,10 +66,10 @@ namespace HungerMaze
             int top = Console.CursorTop;
             int left = Console.CursorLeft;
 
-            foreach (NormalFighter fighter in hiveMind.Fighters)
+            foreach (IFighter fighter in hiveMind.Fighters)
             {
                 Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
-                Console.ForegroundColor = fighter.color;// ConsoleColor.Red;
+                Console.ForegroundColor = fighter.Color;// ConsoleColor.Red;
                 Console.Write(" ");
             }
             Console.ForegroundColor = ConsoleColor.White;
@@ -81,10 +81,10 @@ namespace HungerMaze
             int top = Console.CursorTop;
             int left = Console.CursorLeft;
 
-            foreach (NormalFighter fighter in hiveMind.Fighters)
+            foreach (IFighter fighter in hiveMind.Fighters)
             {
                 Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
-                Console.ForegroundColor = fighter.color;// ConsoleColor.Red;
+                Console.ForegroundColor = fighter.Color;// ConsoleColor.Red;
                 Console.Write("F");
             }
             Console.ForegroundColor = ConsoleColor.White;

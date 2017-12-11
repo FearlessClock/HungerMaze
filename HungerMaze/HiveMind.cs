@@ -8,40 +8,49 @@ namespace HungerMaze
 {
     class HiveMind
     {
-        List<NormalFighter> fighters = new List<NormalFighter>();
+        List<IFighter> fighters = new List<IFighter>();
+
+        string winnerName = "";
+        FighterFactory fighterFactory;
 
         public HiveMind(Maze maze, int nmbrOfFighters)
         {
+            fighterFactory = new FighterFactory(maze.GetSize);
             Random rand = new Random();
             for (int i = 0; i < nmbrOfFighters; i++)
             {
                 Cell cell = maze.GetRandomUnoccupiedCell();
-                NormalFighter curFighter = null;
+                IFighter curFighter = null;
 
-                if (rand.NextDouble() < 0)
+                if (rand.NextDouble() < 0.5f)
                 {
-                    fighters.Add(new NormalFighter(new DefenceStance(), new Vector(maze.Width, maze.Height), cell, rand.Next(1, 10), rand.Next(0, 14), rand.Next(1, 14)));
+                    curFighter = fighterFactory.GetFighter(eFighterType.normalFighter, cell, rand.Next(1, 14));
                 }
                 else
                 {
-                    curFighter = new NormalFighter(new AttackStance(), new Vector(maze.Width, maze.Height), cell, rand.Next(1, 10), rand.Next(0, 14), rand.Next(1, 14));
-                    fighters.Add(curFighter);
+                    curFighter = fighterFactory.GetFighter(eFighterType.strongFighter, cell, rand.Next(1, 14));
                 }
+                fighters.Add(curFighter);
                 cell.CurrentFighter = curFighter;
             }
         }
 
-        public IEnumerable<NormalFighter> Fighters { get { return fighters; } }
+        public string GetWinnerName()
+        {
+            return winnerName;
+        }
+
+        public IEnumerable<IFighter> Fighters { get { return fighters; } }
 
         public void Update(Maze maze, ref bool gameover)
         {
             MazeVisualiser.ClearFighters(this);
-            NormalFighter[] copyFighters = fighters.ToArray();
-            foreach (NormalFighter fighter in copyFighters)
+            IFighter[] copyFighters = fighters.ToArray();
+            foreach (IFighter fighter in copyFighters)
             {
                 Cell[] cells = maze.GetSurroundingEmptyCells(fighter.GetPosition);
-                List<NormalFighter> surroundingFighters = new List<NormalFighter>();
-                List<Item> items = new List<Item>();
+                List<IFighter> surroundingFighters = new List<IFighter>();
+                List<IItem> items = new List<IItem>();
 
                 foreach (Cell c in cells)
                 {
@@ -55,10 +64,14 @@ namespace HungerMaze
                     }
                 }
 
-                fighter.React(items.ToArray<Item>(), cells, surroundingFighters.ToArray<NormalFighter>());
+                fighter.React(items.ToArray<IItem>(), cells, surroundingFighters.ToArray<IFighter>());
                 if (!gameover)
                 {
                     gameover = fighter.CheckForEnd();
+                    if(gameover)
+                    {
+                        winnerName = fighter.getName;
+                    }
                 }
                 if (fighter.IsDead())
                 {

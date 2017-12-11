@@ -3,5 +3,6 @@
     public interface IItem
     {
         float UseItem();
+        Vector Position { get; } 
     }
 }

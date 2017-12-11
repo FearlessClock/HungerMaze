@@ -79,6 +79,11 @@ namespace HungerMaze
             get { return layout.GetLength(1); }
         }
 
+        public Vector GetSize
+        {
+            get { return new Vector(Width, Height); }
+        }
+
         Random rand;
 
         public Maze(Vector size)

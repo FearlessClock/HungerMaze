@@ -9,16 +9,16 @@ namespace HungerMaze
     //Represent the cells of the maze in the grid
     public class Cell
     {
-        Item item;
-        public Item Item
+        IItem item;
+        public IItem Item
         {
             get { return item; }
             set { item = value; }
         }
 
-        NormalFighter fighter;
+        IFighter fighter;
 
-        public NormalFighter CurrentFighter
+        public IFighter CurrentFighter
         {
             get { return fighter; }
             set { fighter = value; }
@@ -195,7 +195,7 @@ namespace HungerMaze
             string res = "";
             if(CurrentFighter != null)
             {
-                res = "{" + pos.x + " : " + pos.y + " FighterColor " + fighter.color + "}";
+                res = "{" + pos.x + " : " + pos.y + " FighterColor " + fighter.Color + "}";
             }
             else
             {
