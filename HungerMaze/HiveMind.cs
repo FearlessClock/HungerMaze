@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HungerMaze
@@ -12,7 +13,8 @@ namespace HungerMaze
 
         string winnerName = "";
         FighterFactory fighterFactory;
-
+        Object mazeLocker = new Object();
+            
         public HiveMind(Maze maze, int nmbrOfFighters)
         {
             fighterFactory = new FighterFactory(maze.GetSize);
@@ -41,34 +43,58 @@ namespace HungerMaze
         }
 
         public IEnumerable<IFighter> Fighters { get { return fighters; } }
-
+        private bool gameoverState;
         public void Update(Maze maze, ref bool gameover)
         {
+            gameoverState = gameover;
             MazeVisualiser.ClearFighters(this);
             IFighter[] copyFighters = fighters.ToArray();
+            Thread[] threads = new Thread[copyFighters.Length];
+            int counter = 0;
             foreach (IFighter fighter in copyFighters)
             {
-                Cell[] cells = maze.GetSurroundingEmptyCells(fighter.GetPosition);
-                List<IFighter> surroundingFighters = new List<IFighter>();
-                List<IItem> items = new List<IItem>();
+                threads[counter] = new Thread(() => UpdateFighter(fighter, maze));
+                threads[counter].Start();
+                counter++;
+                //Console.Write(fighter.Life + " ");
+            }
+            foreach(Thread thread in threads)
+            {
+                thread.Join();
+            }
+            //Console.WriteLine("");
+            gameover = gameoverState;
+            MazeVisualiser.ShowFighters(this);
+        }
 
-                foreach (Cell c in cells)
+        private void UpdateFighter(IFighter fighter, Maze maze)
+        {
+            Cell[] cells = new Cell[0];
+            lock (mazeLocker)
+            {
+                cells = maze.GetSurroundingEmptyCells(fighter.GetPosition);
+            }
+            List<IFighter> surroundingFighters = new List<IFighter>();
+            List<IItem> items = new List<IItem>();
+
+            foreach (Cell c in cells)
+            {
+                if (c.CurrentFighter != null)
                 {
-                    if (c.CurrentFighter != null)
-                    {
-                        surroundingFighters.Add(c.CurrentFighter);
-                    }
-                    if (c.Item != null)
-                    {
-                        items.Add(c.Item);
-                    }
+                    surroundingFighters.Add(c.CurrentFighter);
                 }
-
-                fighter.React(items.ToArray<IItem>(), cells, surroundingFighters.ToArray<IFighter>());
-                if (!gameover)
+                if (c.Item != null)
                 {
-                    gameover = fighter.CheckForEnd();
-                    if(gameover)
+                    items.Add(c.Item);
+                }
+            }
+            lock (mazeLocker)
+            {
+                fighter.React(items.ToArray<IItem>(), cells, surroundingFighters.ToArray<IFighter>());
+                if (!gameoverState)
+                {
+                    gameoverState = fighter.CheckForEnd();
+                    if (gameoverState)
                     {
                         winnerName = fighter.getName;
                     }
@@ -84,10 +110,7 @@ namespace HungerMaze
                     MazeVisualiser.ShowItems(maze);
                     fighters.Remove(fighter);
                 }
-                //Console.Write(fighter.Life + " ");
             }
-            //Console.WriteLine("");
-            MazeVisualiser.ShowFighters(this);
         }
     }
 }
