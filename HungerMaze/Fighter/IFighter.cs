@@ -9,7 +9,7 @@ namespace HungerMaze
         Vector GetPosition { get; }
         string getName { get; }
         ConsoleColor Color { get; }
-
+        List<IItem> GetItems { get; }
 
         void Attack(IFighter enemy);
         void ChangeStance(IStance newStance);

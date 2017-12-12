@@ -12,6 +12,10 @@ namespace HungerMaze
     /// </summary>
     class MazeVisualiser
     {
+
+        static ConsoleColor itemColor = ConsoleColor.Magenta;
+        static ConsoleColor wallColor = ConsoleColor.White;
+        static ConsoleColor EmptyColor = ConsoleColor.White;
         /// <summary>
         /// Show the maze in the console with preset colors
         /// </summary>
@@ -25,22 +29,22 @@ namespace HungerMaze
                 {
                     if(maze.layout[j, i].IsBlocked)
                     {
-                        Console.ForegroundColor = maze.layout[j, i].color;
-                        Console.ForegroundColor = ConsoleColor.White;
+                        //Console.ForegroundColor = maze.layout[j, i].color;
+                        Console.ForegroundColor = wallColor;
                         Console.Write("#");
                     }
                     else
                     {
                         if(maze.layout[j, i].Item != null)
                         {
-                            Console.ForegroundColor = maze.layout[j, i].color;
-                            Console.ForegroundColor = ConsoleColor.Magenta;
+                            //Console.ForegroundColor = maze.layout[j, i].color;
+                            Console.ForegroundColor = itemColor;
                             Console.Write("I");
                         }
                         else
                         {
                             Console.ForegroundColor = maze.layout[j, i].color;
-                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = EmptyColor;
                             Console.Write(" ");
                         }
                     }
@@ -106,6 +110,25 @@ namespace HungerMaze
             //Thread.Sleep(60);
             Console.ForegroundColor = ConsoleColor.White;
 
+            Console.SetCursorPosition(left, top);
+        }
+
+        public static void ShowItems(Maze maze)
+        {
+            int top = Console.CursorTop;
+            int left = Console.CursorLeft;
+            for (int i = 0; i < maze.Width; i++)
+            {
+                for (int j = 0; j < maze.Height; j++)
+                {
+                    if(maze.GetFromVecShallowCopy(new Vector(i, j)).Item != null)
+                    {
+                        Console.ForegroundColor = itemColor;
+                        Console.SetCursorPosition(i, j);
+                        Console.Write("I");
+                    }
+                }
+            }
             Console.SetCursorPosition(left, top);
         }
     }

@@ -76,6 +76,12 @@ namespace HungerMaze
                 if (fighter.IsDead())
                 {
                     fighter.GetCell.CurrentFighter = null;
+                    List<IItem> deadMansItems = fighter.GetItems;
+                    foreach (IItem item in deadMansItems)
+                    {
+                        maze.GetRandomUnoccupiedCell().Item = item;
+                    }
+                    MazeVisualiser.ShowItems(maze);
                     fighters.Remove(fighter);
                 }
                 //Console.Write(fighter.Life + " ");

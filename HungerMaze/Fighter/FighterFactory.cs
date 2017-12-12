@@ -23,15 +23,15 @@ namespace HungerMaze
             switch (fighterType)
             {
                 case eFighterType.weakFighter:
-                    return new NormalFighter(new DefenceStance(), "Weak Fighter " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(0, 4), 10, randColor);
+                    return new NormalFighter(new DefenceStance(), "Weak Fighter " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(0, 4), 100, randColor);
                 case eFighterType.strongFighter:
-                    return new NormalFighter(new DefenceStance(), "Strong Fighter " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(4, 10), 10, randColor);
+                    return new NormalFighter(new DefenceStance(), "Strong Fighter " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(4, 10), 100, randColor);
                 case eFighterType.normalFighter:
-                    return new NormalFighter(new DefenceStance(), "Normal Fighter " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(0, 10), 10, randColor);
+                    return new NormalFighter(new DefenceStance(), "Normal Fighter " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(0, 10), 100, randColor);
                 case eFighterType.slowFighter:
-                    return new NormalFighter(new DefenceStance(), "Slow Fighter " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(0, 10), 10, randColor);
+                    return new NormalFighter(new DefenceStance(), "Slow Fighter " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(0, 10), 100, randColor);
                 default:
-                    return new NormalFighter(new DefenceStance(), "That weird default guy " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(0, 10), 10, randColor);
+                    return new NormalFighter(new DefenceStance(), "That weird default guy " + nmbrOfFightersCreated, mazeSize, currentCell, rand.Next(0, 10), 100, randColor);
             }
         }
     }

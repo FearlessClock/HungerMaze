@@ -69,7 +69,7 @@ namespace HungerMaze
         {
             Random rand = new Random();
             Maze maze = new Maze(size, true);
-            maze = PrimsAlgorithm.GeneratePrimMaze(maze, 1);
+            maze = PrimsAlgorithm.GeneratePrimMaze(maze, 8);
             for (int i = 0; i < maze.Height/5; i++)
             {
                 Cell c = maze.GetRandomWallCell();

@@ -43,6 +43,8 @@ namespace HungerMaze
 
         ConsoleColor IFighter.Color => color;
 
+        public List<IItem> GetItems => inventory;
+
         public NormalFighter(IStance stance, string name, Vector mazeSize, Cell currentCell, float damage, float life, int randColor)
         {
             color = (ConsoleColor)randColor;
@@ -95,6 +97,10 @@ namespace HungerMaze
                 }
 
                 enemy.LoseHealth(sumOfDamage);
+            }
+            else
+            {
+                _stance = new DefenceStance();
             }
         }
 

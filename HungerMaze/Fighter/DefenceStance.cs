@@ -61,7 +61,20 @@ namespace HungerMaze
                          * Idea: Make the surrounding cells not visited
                          * Buuuuut this is a verrry edge case and so we are leaving it for now
                          */
-                        path.Push(step);
+                        //path.Push(step);
+
+
+                        path = new Stack<Cell>();
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < visitedPositions.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < visitedPositions.GetLength(1); j++)
+                        {
+                            visitedPositions[i, j] = false;
+                        }
                     }
                 }
             }
