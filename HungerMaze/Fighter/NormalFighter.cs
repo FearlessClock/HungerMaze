@@ -128,5 +128,10 @@ namespace HungerMaze
         {
             return currentCell.End;
         }
+
+        public void RemoveAllItems()
+        {
+            inventory = new List<IItem>();
+        }
     }
 }

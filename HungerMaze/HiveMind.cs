@@ -35,6 +35,43 @@ namespace HungerMaze
                 fighters.Add(curFighter);
                 cell.CurrentFighter = curFighter;
             }
+
+            Thread gameMaster = new Thread(() => spyOnGame(maze));
+            gameMaster.Start();
+        }
+
+        private void spyOnGame(Maze maze)
+        {
+            Random rand = new Random();
+            Thread.Sleep(5000);
+            while (!gameoverState)
+            {
+                Console.WriteLine("[Game Master] Drop your items right now ! Go find them again ... Mouahaha");
+                List<IItem> items = new List<IItem>();
+
+                lock (mazeLocker)
+                {
+                    foreach (IFighter fighter in fighters)
+                    {
+                        foreach (IItem item in fighter.GetItems)
+                        {
+                            items.Add(item);
+                        }
+                        fighter.RemoveAllItems();
+                    }
+
+                    
+                    foreach(IItem item in items)
+                    {
+                        Cell randomCell = maze.GetRandomUnoccupiedCell(); 
+                        item.Position = randomCell.Position;
+                        item.ConsoleColor = ConsoleColor.Blue;
+                        randomCell.Item = item;
+                    }
+                }
+                MazeVisualiser.ShowItems(maze);
+                Thread.Sleep(rand.Next(1, 3) * 10000);
+            }
         }
 
         public string GetWinnerName()

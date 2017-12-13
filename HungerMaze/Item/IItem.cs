@@ -1,8 +1,12 @@
-﻿namespace HungerMaze
+﻿using System;
+
+namespace HungerMaze
 {
     public interface IItem
     {
         float UseItem();
-        Vector Position { get; } 
+        Vector Position { get; set; }
+        string Name { get; }
+        ConsoleColor ConsoleColor { get; set; }
     }
 }

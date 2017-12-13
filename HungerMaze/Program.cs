@@ -14,6 +14,8 @@ namespace HungerMaze
             Maze maze = MazeGenerator.GenerateNonPerfectPrimMaze(new Vector(30, 30), 0.5f);
             ItemFactory itemFactory = new ItemFactory();
             Random rand = new Random();
+            bool gameover = false;
+
             for (int i = 0; i < 0.1f*maze.Width*maze.Height; i++)
             {
                 Cell randomCell = maze.GetRandomUnoccupiedCell();
@@ -25,7 +27,7 @@ namespace HungerMaze
             MazeVisualiser.ShowMaze(maze);
             MazeVisualiser.ShowFighters(hiveMind);
 
-            bool gameover = false;
+            
             while (!gameover)
             {
                 Thread.Sleep(1000);

@@ -121,9 +121,10 @@ namespace HungerMaze
             {
                 for (int j = 0; j < maze.Height; j++)
                 {
-                    if(maze.GetFromVecShallowCopy(new Vector(i, j)).Item != null)
+                    IItem itemTemp = maze.GetFromVecShallowCopy(new Vector(i, j)).Item;
+                    if (itemTemp!= null)
                     {
-                        Console.ForegroundColor = itemColor;
+                        Console.ForegroundColor = itemTemp.ConsoleColor;
                         Console.SetCursorPosition(i, j);
                         Console.Write("I");
                     }
