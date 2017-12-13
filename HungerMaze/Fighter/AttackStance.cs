@@ -28,12 +28,7 @@ namespace HungerMaze
                 }
                 if (c != null)
                 {
-                    fighter.GetCell.CurrentFighter = null;
-                    c.CurrentFighter = fighter;
-                    fighter.AddItem(items[0]);
-                    path.Push(fighter.GetCell);
-                    fighter.Move(c);
-                    c.Item = null;
+                    MoveFighter(fighter, c, items[0], path);
                 }
             }
             else
@@ -52,10 +47,14 @@ namespace HungerMaze
                 {
                     int selectedIndex = rand.Next(0, unVisitedNeighborCells.Count);
                     Cell c = unVisitedNeighborCells[selectedIndex];
-                    fighter.GetCell.CurrentFighter = null;
-                    c.CurrentFighter = fighter;
-                    path.Push(fighter.GetCell);
-                    fighter.Move(c);
+                    if(items.Length > 0)
+                    {
+                        MoveFighter(fighter, c, items[0], path);
+                    }
+                    else
+                    {
+                        MoveFighter(fighter, c, null, path);
+                    }
                 }
                 else
                 {
@@ -83,7 +82,7 @@ namespace HungerMaze
                              * Idea: Make the surrounding cells not visited
                              * Buuuuut this is a verrry edge case and so we are leaving it for now
                              */
-                            path.Push(step);
+                            path = new Stack<Cell>();
                         }
                     }
                     else
@@ -99,6 +98,22 @@ namespace HungerMaze
                 }
             }
             //ATTTAAAACCCCCCCKKKKK
+        }
+
+        private void MoveFighter(IFighter fighter, Cell c, IItem item, Stack<Cell> path)
+        {
+            fighter.GetCell.CurrentFighter = null;
+            c.CurrentFighter = fighter;
+            if (item != null)
+            {
+                fighter.AddItem(item);
+            }
+            path.Push(fighter.GetCell);
+            fighter.Move(c);
+            if(item != null)
+            {
+                c.Item = null;
+            }
         }
     }
 }

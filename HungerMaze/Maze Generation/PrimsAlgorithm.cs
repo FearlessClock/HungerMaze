@@ -40,11 +40,18 @@ namespace HungerMaze
             {
                 threads[i].Join();
             }
-            maze.End = new Vector(maze.Width-1, maze.Height-2);     //Bottom right corner one up
-        
-            maze.layout[maze.End.x, maze.End.y].IsBlocked = false;
-            maze.layout[maze.End.x-1, maze.End.y].IsBlocked = false;    //Make sure that the exit is clear
-            maze.layout[maze.End.x, maze.End.y].End = true;
+
+            bool exitFound = false;
+            for (int i = maze.Height-2; i >= 0 && !exitFound; i--)
+            {
+                if(!maze.layout[maze.Width-2, i].IsBlocked)
+                {
+                    maze.layout[maze.Width - 1, i].End = true;
+                    maze.layout[maze.Width - 1, i].IsBlocked = false;
+                    maze.End = new Vector(maze.Width - 1, i);
+                    exitFound = true;
+                }
+            }
             maze.SetColorAt(maze.End, ConsoleColor.Green);
             return maze;
         }

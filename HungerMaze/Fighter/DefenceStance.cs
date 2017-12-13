@@ -26,15 +26,8 @@ namespace HungerMaze
             {
                 int selectedIndex = rand.Next(0, unVisitedNeighborCells.Count);
                 Cell c = unVisitedNeighborCells[selectedIndex];
-                fighter.GetCell.CurrentFighter = null;
-                if(c.Item != null)
-                {
-                    fighter.AddItem(c.Item);
-                    c.Item = null;
-                }
-                c.CurrentFighter = fighter;
-                path.Push(fighter.GetCell);
-                fighter.Move(c);
+
+                MoveFighter(fighter, c, c.Item, path);
             }
             else
             {
@@ -79,6 +72,22 @@ namespace HungerMaze
                 }
             }
             //Go to the exit, otherwise item, otherwise random non fighter cell
+        }
+
+        private void MoveFighter(IFighter fighter, Cell c, IItem item, Stack<Cell> path)
+        {
+            fighter.GetCell.CurrentFighter = null;
+            c.CurrentFighter = fighter;
+            if (item != null)
+            {
+                fighter.AddItem(item);
+            }
+            path.Push(fighter.GetCell);
+            fighter.Move(c);
+            if (item != null)
+            {
+                c.Item = null;
+            }
         }
     }
 }
