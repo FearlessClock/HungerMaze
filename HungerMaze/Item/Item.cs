@@ -1,4 +1,6 @@
-﻿namespace HungerMaze
+﻿using System;
+
+namespace HungerMaze
 {
     public class Item : IItem
     {
@@ -6,6 +8,7 @@
         Vector position;
         float damage;
         float useReduction = 1;
+        ConsoleColor consoleColor;
 
         public Item(string name, Vector pos, float damage, float useReduction = 1)
         {
@@ -13,9 +16,12 @@
             this.damage = damage;
             this.useReduction = useReduction;
             this.position = pos;
+            this.ConsoleColor = ConsoleColor.Magenta;
         }
 
-        public Vector Position => position;
+        public Vector Position { get => position; set => position = value; }
+        public string Name { get => name; }
+        public ConsoleColor ConsoleColor { get => consoleColor; set => consoleColor = value; }
 
         public float UseItem()
         {

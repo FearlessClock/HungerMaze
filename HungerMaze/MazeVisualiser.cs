@@ -16,83 +16,94 @@ namespace HungerMaze
         static ConsoleColor itemColor = ConsoleColor.Magenta;
         static ConsoleColor wallColor = ConsoleColor.White;
         static ConsoleColor EmptyColor = ConsoleColor.White;
+
+        static object writelocker = new object();
         /// <summary>
         /// Show the maze in the console with preset colors
         /// </summary>
         /// <param name="maze"></param>
         static public void ShowMaze(Maze maze)
         {
-            //Console.Clear();
-            for (int i = 0; i < maze.layout.GetLength(1); i++)
+            lock(writelocker)
             {
-                for (int j = 0; j < maze.layout.GetLength(0); j++)
+                //Console.Clear();
+                for (int i = 0; i < maze.layout.GetLength(1); i++)
                 {
-                    if(maze.layout[j, i].IsBlocked)
+                    for (int j = 0; j < maze.layout.GetLength(0); j++)
                     {
-                        //Console.ForegroundColor = maze.layout[j, i].color;
-                        Console.ForegroundColor = wallColor;
-                        Console.Write("#");
-                    }
-                    else
-                    {
-                        if(maze.layout[j, i].Item != null)
+                        if (maze.layout[j, i].IsBlocked)
                         {
                             //Console.ForegroundColor = maze.layout[j, i].color;
-                            Console.ForegroundColor = itemColor;
-                            Console.Write("I");
+                            Console.ForegroundColor = wallColor;
+                            Console.Write("#");
                         }
                         else
                         {
-                            Console.ForegroundColor = maze.layout[j, i].color;
-                            Console.ForegroundColor = EmptyColor;
-                            Console.Write(" ");
+                            if (maze.layout[j, i].Item != null)
+                            {
+                                //Console.ForegroundColor = maze.layout[j, i].color;
+                                Console.ForegroundColor = itemColor;
+                                Console.Write("I");
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = maze.layout[j, i].color;
+                                Console.ForegroundColor = EmptyColor;
+                                Console.Write(" ");
+                            }
                         }
                     }
+                    int left = Console.CursorLeft;
+                    int top = Console.CursorTop;
+
+                    //Console.SetCursorPosition(maze.Start.x, maze.Start.y);
+                    //Console.ForegroundColor = ConsoleColor.Green;
+                    //Console.Write("S");
+                    Console.SetCursorPosition(maze.End.x, maze.End.y);
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write("E");
+
+                    Console.SetCursorPosition(left, top);
+                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
-                int left = Console.CursorLeft;
-                int top = Console.CursorTop;
-
-                //Console.SetCursorPosition(maze.Start.x, maze.Start.y);
-                //Console.ForegroundColor = ConsoleColor.Green;
-                //Console.Write("S");
-                Console.SetCursorPosition(maze.End.x, maze.End.y);
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write("E");
-
-                Console.SetCursorPosition(left, top);
-                Console.WriteLine("");
-                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
         internal static void ClearFighters(HiveMind hiveMind)
         {
-            int top = Console.CursorTop;
-            int left = Console.CursorLeft;
-
-            foreach (IFighter fighter in hiveMind.Fighters)
+            lock (writelocker)
             {
-                Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
-                Console.ForegroundColor = fighter.Color;// ConsoleColor.Red;
-                Console.Write(" ");
+                int top = Console.CursorTop;
+                int left = Console.CursorLeft;
+
+                foreach (IFighter fighter in hiveMind.Fighters)
+                {
+                    Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
+                    Console.ForegroundColor = fighter.Color;// ConsoleColor.Red;
+                    Console.Write(" ");
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(left, top);
             }
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(left, top);
         }
 
         public static void ShowFighters(HiveMind hiveMind)
         {
-            int top = Console.CursorTop;
-            int left = Console.CursorLeft;
-
-            foreach (IFighter fighter in hiveMind.Fighters)
+            lock (writelocker)
             {
-                Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
-                Console.ForegroundColor = fighter.Color;// ConsoleColor.Red;
-                Console.Write("F");
+                int top = Console.CursorTop;
+                int left = Console.CursorLeft;
+
+                foreach (IFighter fighter in hiveMind.Fighters)
+                {
+                    Console.SetCursorPosition(fighter.GetPosition.x, fighter.GetPosition.y);
+                    Console.ForegroundColor = fighter.Color;// ConsoleColor.Red;
+                    Console.Write("F");
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(left, top);
             }
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(left, top);
         }
         /// <summary>
         /// Show the start position of the path
@@ -100,36 +111,55 @@ namespace HungerMaze
         /// <param name="pos"></param>
         public static void ShowStart(Vector pos)
         {
-            int top = Console.CursorTop;
-            int left = Console.CursorLeft;
-            Console.BackgroundColor = ConsoleColor.Yellow;
-            Console.SetCursorPosition(pos.x, pos.y);
-            //Console.Write((char)rand.Next(32, 126));
-            Console.Write("S");
-            Console.BackgroundColor = ConsoleColor.Black;
-            //Thread.Sleep(60);
-            Console.ForegroundColor = ConsoleColor.White;
+            lock (writelocker)
+            {
+                int top = Console.CursorTop;
+                int left = Console.CursorLeft;
+                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition(pos.x, pos.y);
+                //Console.Write((char)rand.Next(32, 126));
+                Console.Write("S");
+                Console.BackgroundColor = ConsoleColor.Black;
+                //Thread.Sleep(60);
+                Console.ForegroundColor = ConsoleColor.White;
 
-            Console.SetCursorPosition(left, top);
+                Console.SetCursorPosition(left, top);
+            }
         }
 
         public static void ShowItems(Maze maze)
         {
-            int top = Console.CursorTop;
-            int left = Console.CursorLeft;
-            for (int i = 0; i < maze.Width; i++)
+            lock (writelocker)
             {
-                for (int j = 0; j < maze.Height; j++)
+                int top = Console.CursorTop;
+                int left = Console.CursorLeft;
+                for (int i = 0; i < maze.Width; i++)
                 {
-                    if(maze.GetFromVecShallowCopy(new Vector(i, j)).Item != null)
+                    for (int j = 0; j < maze.Height; j++)
                     {
-                        Console.ForegroundColor = itemColor;
-                        Console.SetCursorPosition(i, j);
-                        Console.Write("I");
+                        IItem itemTemp = maze.GetFromVecShallowCopy(new Vector(i, j)).Item;
+                        if (itemTemp != null)
+                        {
+                            Console.ForegroundColor = itemTemp.ConsoleColor;
+                            Console.SetCursorPosition(i, j);
+                            Console.Write("I");
+                        }
                     }
                 }
+                Console.SetCursorPosition(left, top);
             }
-            Console.SetCursorPosition(left, top);
+        }
+
+        public static void PrintText(string text, int left, int top)
+        {
+            lock(writelocker)
+            {
+                int t = Console.CursorTop;
+                int l = Console.CursorLeft;
+                Console.SetCursorPosition(left, top);
+                Console.Write(text);
+                Console.SetCursorPosition(l, t);
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace HungerMaze
         string winnerName = "";
         FighterFactory fighterFactory;
         Object mazeLocker = new Object();
-            
+        TheVoice voice;
         public HiveMind(Maze maze, int nmbrOfFighters)
         {
             fighterFactory = new FighterFactory(maze.GetSize);
@@ -35,7 +35,13 @@ namespace HungerMaze
                 fighters.Add(curFighter);
                 cell.CurrentFighter = curFighter;
             }
+
+            voice = new TheVoice();
+            Thread gameMaster = new Thread(() => voice.spyOnGame(maze, fighters, mazeLocker));
+            gameMaster.Start();
         }
+        
+
 
         public string GetWinnerName()
         {
@@ -96,6 +102,7 @@ namespace HungerMaze
                     gameoverState = fighter.CheckForEnd();
                     if (gameoverState)
                     {
+                        voice.gameoverState = true;
                         winnerName = fighter.getName;
                     }
                 }

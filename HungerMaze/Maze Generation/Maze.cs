@@ -139,7 +139,7 @@ namespace HungerMaze
         public Cell GetRandomUnoccupiedCell()
         {
             Cell c = GetFromVecShallowCopy(new Vector(rand.Next(0, Width), rand.Next(0, Height)));
-            while (c.IsBlocked || c.CurrentFighter != null )
+            while (c.IsBlocked || c.CurrentFighter != null || c.Item != null)
             {
                 c = GetFromVecShallowCopy(new Vector(rand.Next(0, Width), rand.Next(0, Height)));
             }

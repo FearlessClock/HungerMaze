@@ -60,6 +60,7 @@
     <Compile Include="Maze Generation\Maze.cs" />
     <Compile Include="Maze Generation\MazeGenerator.cs" />
     <Compile Include="Maze Generation\MazeHelper.cs" />
+    <Compile Include="Maze Generation\TheVoice.cs" />
     <Compile Include="MazeVisualiser.cs" />
     <Compile Include="Maze Generation\PrimsAlgorithm.cs" />
     <Compile Include="Program.cs" />
@@ -68,6 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sayings.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

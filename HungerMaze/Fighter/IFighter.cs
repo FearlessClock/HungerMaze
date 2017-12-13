@@ -18,6 +18,7 @@ namespace HungerMaze
         void Move(Cell toCell);
         void React(IItem[] items, Cell[] cells, IFighter[] fighters);
         void AddItem(IItem item);
+        void RemoveAllItems();
         bool CanFight();
         bool IsDead();
 

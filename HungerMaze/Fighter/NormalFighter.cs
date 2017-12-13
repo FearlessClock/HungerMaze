@@ -128,5 +128,11 @@ namespace HungerMaze
         {
             return currentCell.End;
         }
+
+        public void RemoveAllItems()
+        {
+            _stance = new DefenceStance();
+            inventory = new List<IItem>();
+        }
     }
 }
