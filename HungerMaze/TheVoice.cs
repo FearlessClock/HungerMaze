@@ -31,10 +31,12 @@ namespace HungerMaze
             }
         }
 
+        int time = 10000;
+        //Watch the game and every set amount of time, remove the items from the players
         public void spyOnGame(Maze maze, List<IFighter> fighters, object mazeLocker)
         {
             Random rand = new Random();
-            Thread.Sleep(10000);
+            Thread.Sleep(time);
             while (!gameoverState)
             {
                 string emptyness = "";
@@ -67,7 +69,7 @@ namespace HungerMaze
                     }
                 }
                 MazeVisualiser.ShowItems(maze);
-                Thread.Sleep(rand.Next(1, 3) * 10000);
+                Thread.Sleep(rand.Next(1, 3) * time);
             }
         }
     }

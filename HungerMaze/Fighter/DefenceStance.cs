@@ -13,65 +13,63 @@ namespace HungerMaze
         public void React(IFighter fighter, IItem[] items, Cell[] cells, IFighter[] fighters, bool[,] visitedPositions, Stack<Cell> path)
         {
             List<Cell> unVisitedNeighborCells = new List<Cell>();
+            //Find all the open, unvisited cells
             for (int i = 0; i < cells.Length; i++)
             {
-                bool var1 = !visitedPositions[cells[i].Position.x, cells[i].Position.y];
-                bool var2 = !cells[i].HasFighter();
-                if (var1 && var2)
+                if (!visitedPositions[cells[i].Position.x, cells[i].Position.y] && !cells[i].HasFighter())
                 {
                     unVisitedNeighborCells.Add(cells[i]);
                 }
             }
-            if (unVisitedNeighborCells.Count > 0)
+            //If the fighter is next to the exit, go to the exit and leave the function
+            bool stepToEnd = false;
+            foreach (Cell c in unVisitedNeighborCells)
             {
-                int selectedIndex = rand.Next(0, unVisitedNeighborCells.Count);
-                Cell c = unVisitedNeighborCells[selectedIndex];
-
-                MoveFighter(fighter, c, c.Item, path);
-            }
-            else
-            {
-                if (path.Count > 0)
+                if(c.End)
                 {
-                    Cell step = path.Pop();
-                    if (!step.HasFighter())
-                    {
-                        fighter.GetCell.CurrentFighter = null;
-                        fighter.Move(step);
-                    }
-                    else
-                    {
-                        /* Note:
-                         * 1,2,3 The 3 fighters
-                         * V a visited cell
-                         *      #####
-                                #V#V#
-                                #123#
-                                ##V##
-                                #####
-                         * The stack pop places the fighters on other fighters and the other cells are already visited
-                         * The fighters can't move! So they are all stuck!
-                         * Idea: Make the surrounding cells not visited
-                         * Buuuuut this is a verrry edge case and so we are leaving it for now
-                         */
-                        //path.Push(step);
-
-
-                        path = new Stack<Cell>();
-                    }
+                    stepToEnd = true;
+                    MoveFighter(fighter, c, null, path);
                 }
+            }
+            if (!stepToEnd)
+            {
+                //if there are unvisited, open cells, go there
+                if (unVisitedNeighborCells.Count > 0)
+                {
+                    int selectedIndex = rand.Next(0, unVisitedNeighborCells.Count);
+                    Cell c = unVisitedNeighborCells[selectedIndex];
+
+                    MoveFighter(fighter, c, c.Item, path);
+                }
+                //Else go back on your path
                 else
                 {
-                    for (int i = 0; i < visitedPositions.GetLength(0); i++)
+                    if (path.Count > 0)
                     {
-                        for (int j = 0; j < visitedPositions.GetLength(1); j++)
+                        Cell step = path.Pop();
+                        if (!step.HasFighter())
                         {
-                            visitedPositions[i, j] = false;
+                            fighter.GetCell.CurrentFighter = null;
+                            fighter.Move(step);
+                        }
+                        else
+                        {
+                            path = new Stack<Cell>();
+                        }
+                    }
+                    //If all else fails, backtrack
+                    else
+                    {
+                        for (int i = 0; i < visitedPositions.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < visitedPositions.GetLength(1); j++)
+                            {
+                                visitedPositions[i, j] = false;
+                            }
                         }
                     }
                 }
             }
-            //Go to the exit, otherwise item, otherwise random non fighter cell
         }
 
         private void MoveFighter(IFighter fighter, Cell c, IItem item, Stack<Cell> path)

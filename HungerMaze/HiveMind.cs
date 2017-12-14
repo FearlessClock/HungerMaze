@@ -15,6 +15,7 @@ namespace HungerMaze
         FighterFactory fighterFactory;
         Object mazeLocker = new Object();
         TheVoice voice;
+
         public HiveMind(Maze maze, int nmbrOfFighters)
         {
             fighterFactory = new FighterFactory(maze.GetSize);
@@ -50,6 +51,9 @@ namespace HungerMaze
 
         public IEnumerable<IFighter> Fighters { get { return fighters; } }
         private bool gameoverState;
+        /// <summary>
+        /// At each update, start a thread with each fighter updating
+        /// </summary>
         public void Update(Maze maze, ref bool gameover)
         {
             gameoverState = gameover;
@@ -57,24 +61,26 @@ namespace HungerMaze
             IFighter[] copyFighters = fighters.ToArray();
             Thread[] threads = new Thread[copyFighters.Length];
             int counter = 0;
+
             foreach (IFighter fighter in copyFighters)
             {
                 threads[counter] = new Thread(() => UpdateFighter(fighter, maze));
                 threads[counter].Start();
                 counter++;
-                //Console.Write(fighter.Life + " ");
             }
+
             foreach(Thread thread in threads)
             {
                 thread.Join();
             }
-            //Console.WriteLine("");
+
             gameover = gameoverState;
             MazeVisualiser.ShowFighters(this);
         }
 
         private void UpdateFighter(IFighter fighter, Maze maze)
         {
+            //Get the surrounding empty cells
             Cell[] cells = new Cell[0];
             lock (mazeLocker)
             {
@@ -83,6 +89,7 @@ namespace HungerMaze
             List<IFighter> surroundingFighters = new List<IFighter>();
             List<IItem> items = new List<IItem>();
 
+            //Get the surrounding fighters and items
             foreach (Cell c in cells)
             {
                 if (c.CurrentFighter != null)
@@ -96,7 +103,9 @@ namespace HungerMaze
             }
             lock (mazeLocker)
             {
+                //React to the enviroment
                 fighter.React(items.ToArray<IItem>(), cells, surroundingFighters.ToArray<IFighter>());
+                //Check if the game is over
                 if (!gameoverState)
                 {
                     gameoverState = fighter.CheckForEnd();
@@ -106,6 +115,7 @@ namespace HungerMaze
                         winnerName = fighter.getName;
                     }
                 }
+                //If the fiter is dead, throw his stuff around
                 if (fighter.IsDead())
                 {
                     fighter.GetCell.CurrentFighter = null;

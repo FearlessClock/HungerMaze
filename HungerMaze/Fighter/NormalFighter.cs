@@ -79,6 +79,7 @@ namespace HungerMaze
 
         public void Attack(IFighter enemy)
         {
+            //If the fighter has items, fight and check to see if an item needs to be removed or not
             if (inventory.Count > 0)
             {
                 float sumOfDamage = damage;

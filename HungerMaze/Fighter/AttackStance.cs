@@ -12,10 +12,12 @@ namespace HungerMaze
         Random rand = new Random();
         public void React(IFighter fighter, IItem[] items, Cell[] cells, IFighter[] fighters, bool[,] visitedPositions, Stack<Cell> path)
         {
+            //If there is an enemy, attack it
             if (fighter.CanFight() && fighters.Length > 0)
             {
                 fighter.Attack(fighters[0]);
             }
+            //If there is an item, gete it
             else if(items.Length > 0)
             {
                 Cell c = null;
@@ -31,6 +33,7 @@ namespace HungerMaze
                     MoveFighter(fighter, c, items[0], path);
                 }
             }
+            //Otherwise, find an open, unvisited cell and move to it.
             else
             {
                 List<Cell> unVisitedNeighborCells = new List<Cell>();
@@ -56,6 +59,7 @@ namespace HungerMaze
                         MoveFighter(fighter, c, null, path);
                     }
                 }
+                //If no open, unvisited cells are found, go back on the path
                 else
                 {
                     //Double pop because the first pop is the current position
@@ -69,22 +73,10 @@ namespace HungerMaze
                         }
                         else
                         {
-                            /* Note:
-                             * 1,2,3 The 3 fighters
-                             * V a visited cell
-                             *      #####
-                                    #V#V#
-                                    #123#
-                                    ##V##
-                                    #####
-                             * The stack pop places the fighters on other fighters and the other cells are already visited
-                             * The fighters can't move! So they are all stuck!
-                             * Idea: Make the surrounding cells not visited
-                             * Buuuuut this is a verrry edge case and so we are leaving it for now
-                             */
                             path = new Stack<Cell>();
                         }
                     }
+                    //If nothing can be done, reset everything
                     else
                     {
                         for (int i = 0; i < visitedPositions.GetLength(0); i++)
@@ -97,7 +89,6 @@ namespace HungerMaze
                     }
                 }
             }
-            //ATTTAAAACCCCCCCKKKKK
         }
 
         private void MoveFighter(IFighter fighter, Cell c, IItem item, Stack<Cell> path)

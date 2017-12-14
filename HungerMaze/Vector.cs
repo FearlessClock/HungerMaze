@@ -61,12 +61,6 @@ namespace HungerMaze
         /// <summary>
         /// Inclusive min max check
         /// </summary>
-        /// <param name="vec"></param>
-        /// <param name="minX"></param>
-        /// <param name="minY"></param>
-        /// <param name="maxX"></param>
-        /// <param name="maxY"></param>
-        /// <returns></returns>
         public bool IsBetween(float minX, float minY, float maxX, float maxY)
         {
             if(this.x >= minX && this.x < maxX && this.y >= minY && this.y < maxY)

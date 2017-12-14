@@ -11,6 +11,7 @@ namespace HungerMaze
     {
         static void Main(string[] args)
         {
+            //Create the maze, generate the items and start the hivemind class
             Maze maze = MazeGenerator.GenerateNonPerfectPrimMaze(new Vector(15, 10), 0.5f);
             ItemFactory itemFactory = new ItemFactory();
             Random rand = new Random();

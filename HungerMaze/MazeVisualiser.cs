@@ -10,6 +10,10 @@ namespace HungerMaze
     /// <summary>
     /// Class to draw the maze or path from anywhere in the script, easily
     /// </summary>
+    /// 
+
+    ///NOTE on the locks. The locks are used to make sure that the 
+    ///console never writes at the same time which could cause some funny effects
     class MazeVisualiser
     {
 
@@ -55,10 +59,7 @@ namespace HungerMaze
                     }
                     int left = Console.CursorLeft;
                     int top = Console.CursorTop;
-
-                    //Console.SetCursorPosition(maze.Start.x, maze.Start.y);
-                    //Console.ForegroundColor = ConsoleColor.Green;
-                    //Console.Write("S");
+                    
                     Console.SetCursorPosition(maze.End.x, maze.End.y);
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.Write("E");
@@ -70,7 +71,8 @@ namespace HungerMaze
             }
         }
 
-        internal static void ClearFighters(HiveMind hiveMind)
+        //Clear the fighters from the screen
+        public static void ClearFighters(HiveMind hiveMind)
         {
             lock (writelocker)
             {
@@ -88,6 +90,7 @@ namespace HungerMaze
             }
         }
 
+        //Show the fighters on the screen
         public static void ShowFighters(HiveMind hiveMind)
         {
             lock (writelocker)
@@ -127,6 +130,7 @@ namespace HungerMaze
             }
         }
 
+        //Show the items on the screen
         public static void ShowItems(Maze maze)
         {
             lock (writelocker)
